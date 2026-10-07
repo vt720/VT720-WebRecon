@@ -34,6 +34,7 @@ pip install -r requirements.txt
 基本用法
 bash
 python vt720_webrecon.py -u http://example.com
+
 批量扫描
 bash
 python vt720_webrecon.py -f targets.txt -c 30
@@ -44,6 +45,8 @@ example.com
 https://test.com
 192.168.1.1
 10.0.0.0/24
+
+
 完整参数
 参数	说明
 -u, --url URL	目标 URL，自动补全 http:// 前缀
@@ -54,6 +57,8 @@ https://test.com
 --no-redirect	禁止跟随重定向，抓取 301/302 原始报文
 -k, --insecure	忽略 SSL 证书校验，并屏蔽 urllib3 告警
 -o, --output FILE	导出结构化 JSON 报告
+
+
 示例
 bash
 # 忽略证书 + 不跟随重定向 + 导出报告
@@ -61,6 +66,8 @@ python vt720_webrecon.py -u https://example.com -k --no-redirect -o report.json
 
 # 批量 + 高并发 + 自定义 UA
 python vt720_webrecon.py -f targets.txt -c 50 -a "Mozilla/5.0 ..." -o report.json
+
+
 📊 输出示例
 使用 -o report.json 导出的结构化报告示例：
 

@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# 本地输出 / 报告
+*.json
+!requirements.json
+output/
+results/
+reports/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log

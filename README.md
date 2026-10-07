@@ -1,7 +1,7 @@
 # VT720-WebRecon
 
 > HTTP 资产指纹识别与 Web 信息收集引擎
-
+> 🚧 项目处于早期阶段（v0.1），功能和代码结构仍在迭代中，欢迎 issue 与 PR。
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v0.1-green.svg)](../../releases)

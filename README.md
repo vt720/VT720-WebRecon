@@ -1,20 +1,21 @@
 # VT720-WebRecon
 
 > HTTP 资产指纹识别与 Web 信息收集引擎
-> 🚧 项目处于早期阶段（v0.1），功能和代码结构仍在迭代中，欢迎 issue 与 PR。
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+> by VT720
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-v0.1-green.svg)](../../releases)
 
-`VT720-WebRecon` 是一个轻量级的 HTTP 资产指纹识别与 Web 信息收集工具。
-支持单目标与批量扫描，自动规范化 URL，可选跟随或禁止重定向，
-并将结果导出为结构化 JSON 报告。零配置文件，纯命令行驱动。
+一个采用多线程并发方式，对指定 URL / IP / 域名进行 HTTP 资产指纹识别与 Web 信息收集的脚本引擎。
 
-## ✨ 特性
+> ⚠️ 本工具仅供网络安全学习、授权渗透测试和自有资产自查使用。请勿用于任何未经授权的扫描行为。
+
+## ✨ 功能特性
 
 - 🔍 **HTTP 资产指纹识别** —— Server / 中间件 / 框架 / CMS 等信息提取
 - 📥 **单目标或批量输入** —— 支持 IP、域名、URL 混合列表
-- ⚡ **多线程并发** —— 批量模式可自定义并发数，默认 20
+- ⚡ **多线程并发** —— 批量模式可自定义并发数（默认 20）
 - 🔗 **URL 自动规范化** —— 缺省协议时自动补全 `http://`
 - ↪️ **重定向可控** —— 默认跟随并记录跳转链，或抓取原始 301/302 报文
 - 🔒 **忽略证书校验** —— 支持自签名 / 过期 / 无效证书，并屏蔽 urllib3 告警
@@ -22,20 +23,40 @@
 - 📄 **结构化 JSON 报告** —— 一键导出，便于后续处理与集成
 - 🧩 **零配置** —— 全部通过命令行参数控制，开箱即用
 
-## 📦 安装
+## 📦 环境要求
+
+- Python 3.8+
+- 依赖第三方库：`requests`
+
+## 🔧 安装
 
 ```bash
+# 1. 克隆仓库
 git clone https://github.com/vt720/VT720-WebRecon.git
 cd VT720-WebRecon
-pip install -r requirements.txt
-环境要求：Python 3.8+，依赖 requests。
 
+# 2. 安装依赖
+pip install -r requirements.txt
 🚀 使用方法
-基本用法
+bash
+python vt720_webrecon.py -u <目标URL> [选项]
+完整参数
+参数	说明	是否必填	默认值
+-u, --url URL	目标 URL，自动补全 http:// 前缀	二选一	-
+-f, --file FILE	批量目标文件（IP / 域名 / URL 列表）	二选一	-
+-c, --concurrency	批量模式最大并发数	❌	20
+--timeout	HTTP 请求超时时间（秒）	❌	5.0
+-a, --user-agent	自定义 User-Agent	❌	内置浏览器 UA
+--no-redirect	禁止跟随重定向，抓取 301/302 原始报文	❌	跟随
+-k, --insecure	忽略 SSL 证书校验，屏蔽 urllib3 告警	❌	关闭
+-o, --output	导出结构化 JSON 报告	❌	关闭
+使用示例
+1️⃣ 扫描单个 URL
+
 bash
 python vt720_webrecon.py -u http://example.com
+2️⃣ 批量扫描
 
-批量扫描
 bash
 python vt720_webrecon.py -f targets.txt -c 30
 targets.txt 示例（IP / 域名 / URL 可混合）：
@@ -45,31 +66,18 @@ example.com
 https://test.com
 192.168.1.1
 10.0.0.0/24
+3️⃣ 忽略证书 + 不跟随重定向
 
-
-完整参数
-参数	说明
--u, --url URL	目标 URL，自动补全 http:// 前缀
--f, --file FILE	批量目标文件（IP / 域名 / URL 列表）
--c, --concurrency N	批量模式最大并发数（默认 20）
---timeout SEC	HTTP 请求超时时间（默认 5.0 秒）
--a, --user-agent UA	自定义 User-Agent
---no-redirect	禁止跟随重定向，抓取 301/302 原始报文
--k, --insecure	忽略 SSL 证书校验，并屏蔽 urllib3 告警
--o, --output FILE	导出结构化 JSON 报告
-
-
-示例
 bash
-# 忽略证书 + 不跟随重定向 + 导出报告
-python vt720_webrecon.py -u https://example.com -k --no-redirect -o report.json
+python vt720_webrecon.py -u https://example.com -k --no-redirect
+4️⃣ 批量 + 高并发 + 自定义 UA + 导出报告
 
-# 批量 + 高并发 + 自定义 UA
+bash
 python vt720_webrecon.py -f targets.txt -c 50 -a "Mozilla/5.0 ..." -o report.json
+📤 输出说明
+终端输出：实时显示每个目标的识别结果与关键字段。
 
-
-📊 输出示例
-使用 -o report.json 导出的结构化报告示例：
+文件输出：携带 -o report.json 时，结果保存为结构化 JSON，结构如下：
 
 json
 [
@@ -98,12 +106,26 @@ redirect_chain	array	重定向跳转链（--no-redirect 时为空）
 cookie_security	array	安全性相关的 Cookie 标记信息
 ⚠️ 字段以后续版本为准，若脚本结构有更新，README 会同步维护。
 
-🛡️ 免责声明
-本项目仅供 安全研究、授权渗透测试、企业资产梳理、教学演示 等合法用途。
+🗂️ 项目结构
+text
+VT720-WebRecon/
+├── vt720_webrecon.py    # 主程序
+├── README.md            # 项目说明
+├── LICENSE              # MIT 开源协议
+├── requirements.txt     # 依赖清单
+├── CHANGELOG.md         # 版本记录
+├── DISCLAIMER.md        # 免责声明
+└── .gitignore           # Git 忽略规则
+⚠️ 免责声明
+本工具仅供网络安全学习、授权渗透测试和自有资产自查使用。
 
-使用者需自行确保对目标拥有合法授权。任何未经授权的扫描、探测或信息收集行为均与本项目作者无关，由此产生的一切后果由使用者自行承担。
+使用者必须确保对扫描目标拥有合法授权，否则一切后果自负。
+
+严禁将本工具用于任何未经授权的扫描、探测或信息收集行为。
+
+因使用本工具产生的一切法律责任，由使用者自行承担，与作者无关。
 
 详见 DISCLAIMER.md。
 
 📄 License
-MIT
+本项目基于 MIT License 开源。

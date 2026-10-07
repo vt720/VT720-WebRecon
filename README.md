@@ -49,11 +49,11 @@ python vt720_webrecon.py -u <目标URL> [选项]
 -k, --insecure	忽略 SSL 证书校验，屏蔽 urllib3 告警	❌	关闭
 -o, --output	导出结构化 JSON 报告	❌	关闭
 使用示例
-1️⃣ 扫描单个 URL
+**1️⃣ 扫描单个 URL**
 
 bash
 python vt720_webrecon.py -u http://example.com
-2️⃣ 批量扫描
+**2️⃣ 批量扫描**
 
 bash
 python vt720_webrecon.py -f targets.txt -c 30
@@ -64,15 +64,15 @@ example.com
 https://test.com
 192.168.1.1
 10.0.0.0/24
-3️⃣ 忽略证书 + 不跟随重定向
+**3️⃣ 忽略证书 + 不跟随重定向**
 
 bash
 python vt720_webrecon.py -u https://example.com -k --no-redirect
-4️⃣ 批量 + 高并发 + 自定义 UA + 导出报告
+**4️⃣ 批量 + 高并发 + 自定义 UA + 导出报告**
 
 bash
 python vt720_webrecon.py -f targets.txt -c 50 -a "Mozilla/5.0 ..." -o report.json
-📤 输出说明
+**📤 输出说明**
 终端输出：实时显示每个目标的识别结果与关键字段。
 
 文件输出：携带 -o report.json 时，结果保存为结构化 JSON，结构如下：

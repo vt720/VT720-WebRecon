@@ -1,4 +1,3 @@
-markdown
 # VT720-WebRecon
 
 > HTTP 资产指纹识别与 Web 信息收集引擎
@@ -32,14 +31,12 @@ markdown
 ## 🔧 安装
 
 ```bash
-# 1. 克隆仓库
 git clone https://github.com/vt720/VT720-WebRecon.git
 cd VT720-WebRecon
-
-# 2. 安装依赖
 pip install -r requirements.txt
-🚀 使用方法
-bash
+
+## 🚀 安装
+```bash
 python vt720_webrecon.py -u <目标URL> [选项]
 完整参数
 参数	说明	是否必填	默认值
